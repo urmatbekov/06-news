@@ -1,9 +1,10 @@
-const initialState = {
-    results:[],
-}
+import {combineReducers} from "redux"
+import news from "./news"
+import detail from "./detail"
 
-const reduce = (state=initialState,action) => {
-    return state
-}
+const reduce = combineReducers({
+    news,
+    detail
+})
 
 export default reduce;

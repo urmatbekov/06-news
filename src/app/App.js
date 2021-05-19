@@ -6,14 +6,15 @@ import { Route } from "react-router-dom"
 import About from '../components/About';
 import Contacts from "../components/Contacts"
 import NewsDetail from "../components/NewsDetail"
+import { connect } from 'react-redux';
+import {addNews} from '../actions/news';
 
 
-const App = () => {
+const App = ({news,addNews}) => {
 
-    const [news, setNews] = useState([])
     useEffect(() => {
         axios.get("https://nurkadyrnur.pythonanywhere.com/news/").then((res) => {
-            setNews(res.data.results);
+            addNews(res.data);
         })
     }, [])
 
@@ -24,7 +25,7 @@ const App = () => {
                 <Route path="/" exact>
                     <h1 className="text-center">Hello news</h1>
                     <div className="row mb-5">
-                        {news.map((item) => (
+                        {news.results.map((item) => (
                             <div key={item.id} className="col-6 mt-4">
                                 <NewsItem item={item} />
                             </div>
@@ -45,4 +46,8 @@ const App = () => {
     );
 };
 
-export default App;
+const msp = ({news}) => {
+    return {news}
+}
+
+export default connect(msp,{addNews})(App);
